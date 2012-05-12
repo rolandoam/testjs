@@ -53,6 +53,8 @@
 		A037157D154F845100081CBA /* Spiral.plist in Resources */ = {isa = PBXBuildFile; fileRef = A037156F154F845000081CBA /* Spiral.plist */; };
 		A037157E154F845100081CBA /* SpookyPeas.plist in Resources */ = {isa = PBXBuildFile; fileRef = A0371570154F845000081CBA /* SpookyPeas.plist */; };
 		A037157F154F845100081CBA /* Upsidedown.plist in Resources */ = {isa = PBXBuildFile; fileRef = A0371571154F845100081CBA /* Upsidedown.plist */; };
+		A0628080155DD653003D751C /* grossini.plist in Resources */ = {isa = PBXBuildFile; fileRef = A062807E155DD653003D751C /* grossini.plist */; };
+		A0628081155DD653003D751C /* grossini.pvr.gz in Resources */ = {isa = PBXBuildFile; fileRef = A062807F155DD653003D751C /* grossini.pvr.gz */; };
 		A06FAAF9155335D000561245 /* stars2.png in Resources */ = {isa = PBXBuildFile; fileRef = A06FAAF8155335D000561245 /* stars2.png */; };
 		A92275421517C094001B78AA /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A92275411517C094001B78AA /* QuartzCore.framework */; };
 		A92275441517C094001B78AA /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A92275431517C094001B78AA /* OpenGLES.framework */; };
@@ -243,6 +245,8 @@
 		A037156F154F845000081CBA /* Spiral.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Spiral.plist; path = Resources/Spiral.plist; sourceTree = "<group>"; };
 		A0371570154F845000081CBA /* SpookyPeas.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = SpookyPeas.plist; path = Resources/SpookyPeas.plist; sourceTree = "<group>"; };
 		A0371571154F845100081CBA /* Upsidedown.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Upsidedown.plist; path = Resources/Upsidedown.plist; sourceTree = "<group>"; };
+		A062807E155DD653003D751C /* grossini.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = grossini.plist; path = Resources/grossini.plist; sourceTree = "<group>"; };
+		A062807F155DD653003D751C /* grossini.pvr.gz */ = {isa = PBXFileReference; lastKnownFileType = archive.gzip; name = grossini.pvr.gz; path = Resources/grossini.pvr.gz; sourceTree = "<group>"; };
 		A06FAAF8155335D000561245 /* stars2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = stars2.png; path = Resources/stars2.png; sourceTree = "<group>"; };
 		A922753D1517C094001B78AA /* testjs.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = testjs.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A92275411517C094001B78AA /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -645,6 +649,8 @@
 		A92275521517C094001B78AA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				A062807E155DD653003D751C /* grossini.plist */,
+				A062807F155DD653003D751C /* grossini.pvr.gz */,
 				007C32F81554409C00A51425 /* ballbounce.wav */,
 				007C32F91554409C00A51425 /* Silly Fun Theme A.mp3 */,
 				A0371580154F845700081CBA /* Particles */,
@@ -1309,6 +1315,8 @@
 				A06FAAF9155335D000561245 /* stars2.png in Resources */,
 				007C32FA1554409C00A51425 /* ballbounce.wav in Resources */,
 				007C32FB1554409C00A51425 /* Silly Fun Theme A.mp3 in Resources */,
+				A0628080155DD653003D751C /* grossini.plist in Resources */,
+				A0628081155DD653003D751C /* grossini.pvr.gz in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

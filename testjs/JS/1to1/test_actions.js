@@ -194,7 +194,7 @@ scenes['test_wave3d'] = function () {
 	scene.runAction(wave);
 
 	// add the menu
-	var menu = createMenu("Test Sequence");
+	var menu = createMenu("Test Waves3D");
 	scene.addChild(node);
 	scene.addChild(menu, 1);
 
