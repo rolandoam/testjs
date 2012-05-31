@@ -1929,7 +1929,10 @@ JSBool S_CCLabelBMFont::jsPropertySet(JSContext *cx, JSObject *obj, jsid _id, JS
 		do { JSBool tmp; JS_ValueToBoolean(cx, *val, &tmp); cobj->setIsOpacityModifyRGB(tmp); } while (0);
 		break;
 	case kString:
-		
+		do {
+			std::string tmp = JS_EncodeString(cx, JSVAL_TO_STRING(*val));
+			if (tmp) { cobj->setString(tmp); }
+		} while (0);
 		break;
 	case kOpacity:
 		do { uint32_t tmp; JS_ValueToECMAUint32(cx, *val, &tmp); cobj->setOpacity(tmp); } while (0);
@@ -20660,7 +20663,10 @@ JSBool S_CCLabelAtlas::jsPropertySet(JSContext *cx, JSObject *obj, jsid _id, JSB
 	if (!cobj) return JS_FALSE;
 	switch(propId) {
 	case kString:
-		
+		do {
+			std::string tmp = JS_EncodeString(cx, JSVAL_TO_STRING(*val));
+			if (tmp) { cobj->setString(tmp); }
+		} while (0);
 		break;
 	default:
 		break;
@@ -21774,7 +21780,10 @@ JSBool S_CCTMXLayer::jsPropertySet(JSContext *cx, JSObject *obj, jsid _id, JSBoo
 		} while (0);
 		break;
 	case kLayerName:
-		
+		do {
+			std::string tmp = JS_EncodeString(cx, JSVAL_TO_STRING(*val));
+			if (tmp) { cobj->setLayerName(tmp); }
+		} while (0);
 		break;
 	default:
 		break;
