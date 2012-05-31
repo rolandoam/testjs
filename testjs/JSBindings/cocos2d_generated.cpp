@@ -1895,7 +1895,7 @@ JSBool S_CCLabelBMFont::jsPropertyGet(JSContext *cx, JSObject *obj, jsid _id, js
 		JS_SET_RVAL(cx, val, BOOLEAN_TO_JSVAL(cobj->getIsOpacityModifyRGB()));
 		break;
 	case kString:
-				// don't know what this is (c ~> js)
+		do { JSString *tmp = JS_NewStringCopyZ(cx, cobj->getString()); JS_SET_RVAL(cx, val, STRING_TO_JSVAL(tmp)); } while (0);
 		break;
 	case kOpacity:
 		do { jsval tmp; JS_NewNumberValue(cx, cobj->getOpacity(), &tmp); JS_SET_RVAL(cx, val, tmp); } while (0);
@@ -1929,7 +1929,7 @@ JSBool S_CCLabelBMFont::jsPropertySet(JSContext *cx, JSObject *obj, jsid _id, JS
 		do { JSBool tmp; JS_ValueToBoolean(cx, *val, &tmp); cobj->setIsOpacityModifyRGB(tmp); } while (0);
 		break;
 	case kString:
-				// don't know what this is (js ~> c)
+		
 		break;
 	case kOpacity:
 		do { uint32_t tmp; JS_ValueToECMAUint32(cx, *val, &tmp); cobj->setOpacity(tmp); } while (0);
@@ -16560,6 +16560,7 @@ void S_CCNode::jsCreateClass(JSContext *cx, JSObject *globalObj, const char *nam
 			JS_FN("removeChild", S_CCNode::jsremoveChild, 2, JSPROP_PERMANENT | JSPROP_SHARED),
 			JS_FN("removeChildByTag", S_CCNode::jsremoveChildByTag, 2, JSPROP_PERMANENT | JSPROP_SHARED),
 			JS_FN("removeAllChildrenWithCleanup", S_CCNode::jsremoveAllChildrenWithCleanup, 1, JSPROP_PERMANENT | JSPROP_SHARED),
+			JS_FN("getChildByTag", S_CCNode::jsgetChildByTag, 1, JSPROP_PERMANENT | JSPROP_SHARED),
 			JS_FN("reorderChild", S_CCNode::jsreorderChild, 2, JSPROP_PERMANENT | JSPROP_SHARED),
 			JS_FN("cleanup", S_CCNode::jscleanup, 0, JSPROP_PERMANENT | JSPROP_SHARED),
 			JS_FN("draw", S_CCNode::jsdraw, 0, JSPROP_PERMANENT | JSPROP_SHARED),
@@ -16717,6 +16718,32 @@ JSBool S_CCNode::jsremoveAllChildrenWithCleanup(JSContext *cx, uint32_t argc, js
 		self->removeAllChildrenWithCleanup(arg0);
 		
 		JS_SET_RVAL(cx, vp, JSVAL_TRUE);
+		return JS_TRUE;
+	}
+	JS_SET_RVAL(cx, vp, JSVAL_TRUE);
+	return JS_TRUE;
+}
+JSBool S_CCNode::jsgetChildByTag(JSContext *cx, uint32_t argc, jsval *vp) {
+	JSObject* obj = (JSObject *)JS_THIS_OBJECT(cx, vp);
+	S_CCNode* self = NULL; JSGET_PTRSHELL(S_CCNode, self, obj);
+	if (self == NULL) return JS_FALSE;
+	if (argc == 1) {
+		int arg0;
+		JS_ConvertArguments(cx, 1, JS_ARGV(cx, vp), "i", &arg0);
+		CCNode* ret = self->getChildByTag(arg0);
+		if (ret == NULL) {
+			JS_SET_RVAL(cx, vp, JSVAL_NULL);
+			return JS_TRUE;
+		}
+		do {
+			JSObject *tmp = JS_NewObject(cx, S_CCNode::jsClass, S_CCNode::jsObject, NULL);
+			pointerShell_t *pt = (pointerShell_t *)JS_malloc(cx, sizeof(pointerShell_t));
+			pt->flags = kPointerTemporary;
+			pt->data = (void *)ret;
+			JS_SetPrivate(tmp, pt);
+			JS_SET_RVAL(cx, vp, OBJECT_TO_JSVAL(tmp));
+		} while (0);
+		
 		return JS_TRUE;
 	}
 	JS_SET_RVAL(cx, vp, JSVAL_TRUE);
@@ -20618,7 +20645,7 @@ JSBool S_CCLabelAtlas::jsPropertyGet(JSContext *cx, JSObject *obj, jsid _id, jsv
 	if (!cobj) return JS_FALSE;
 	switch(propId) {
 	case kString:
-				// don't know what this is (c ~> js)
+		do { JSString *tmp = JS_NewStringCopyZ(cx, cobj->getString()); JS_SET_RVAL(cx, val, STRING_TO_JSVAL(tmp)); } while (0);
 		break;
 	default:
 		break;
@@ -20633,7 +20660,7 @@ JSBool S_CCLabelAtlas::jsPropertySet(JSContext *cx, JSObject *obj, jsid _id, JSB
 	if (!cobj) return JS_FALSE;
 	switch(propId) {
 	case kString:
-				// don't know what this is (js ~> c)
+		
 		break;
 	default:
 		break;
@@ -21699,7 +21726,7 @@ JSBool S_CCTMXLayer::jsPropertyGet(JSContext *cx, JSObject *obj, jsid _id, jsval
 		do { jsval tmp; JS_NewNumberValue(cx, cobj->getLayerOrientation(), &tmp); JS_SET_RVAL(cx, val, tmp); } while (0);
 		break;
 	case kLayerName:
-				// don't know what this is (c ~> js)
+		do { JSString *tmp = JS_NewStringCopyZ(cx, cobj->getLayerName()); JS_SET_RVAL(cx, val, STRING_TO_JSVAL(tmp)); } while (0);
 		break;
 	default:
 		break;
@@ -21747,7 +21774,7 @@ JSBool S_CCTMXLayer::jsPropertySet(JSContext *cx, JSObject *obj, jsid _id, JSBoo
 		} while (0);
 		break;
 	case kLayerName:
-				// don't know what this is (js ~> c)
+		
 		break;
 	default:
 		break;

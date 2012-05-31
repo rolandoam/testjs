@@ -2504,6 +2504,7 @@ public:
 	static JSBool jsremoveChild(JSContext *cx, uint32_t argc, jsval *vp);
 	static JSBool jsremoveChildByTag(JSContext *cx, uint32_t argc, jsval *vp);
 	static JSBool jsremoveAllChildrenWithCleanup(JSContext *cx, uint32_t argc, jsval *vp);
+	static JSBool jsgetChildByTag(JSContext *cx, uint32_t argc, jsval *vp);
 	static JSBool jsreorderChild(JSContext *cx, uint32_t argc, jsval *vp);
 	static JSBool jscleanup(JSContext *cx, uint32_t argc, jsval *vp);
 	static JSBool jsdraw(JSContext *cx, uint32_t argc, jsval *vp);
