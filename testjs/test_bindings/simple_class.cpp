@@ -18,6 +18,24 @@ SimpleNativeClass::~SimpleNativeClass()
 {
 }
 
+long long SimpleNativeClass::thisReturnsALongLong() {
+	static long long __id = 0;
+	return __id++;
+}
+
+void SimpleNativeClass::receivesLongLong(long long someId) {
+	someId += 1;
+}
+
+std::string SimpleNativeClass::returnsAString() {
+	std::string myString = "my std::string";
+	return myString;
+}
+
+const char *SimpleNativeClass::returnsACString() {
+	return "this is a c-string";
+}
+
 // just a very simple function :)
 int SimpleNativeClass::doSomeProcessing(std::string arg1, std::string arg2)
 {

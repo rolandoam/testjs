@@ -869,13 +869,11 @@ public:
 	static JSBool jsPropertyGet(JSContext *cx, JSObject *obj, jsid _id, jsval *val);
 	static JSBool jsPropertySet(JSContext *cx, JSObject *obj, jsid _id, JSBool strict, jsval *val);
 	static void jsCreateClass(JSContext *cx, JSObject *globalObj, const char *name);
-	static JSBool jsinitWithFrames(JSContext *cx, uint32_t argc, jsval *vp);
 	static JSBool jsaddFrame(JSContext *cx, uint32_t argc, jsval *vp);
 	static JSBool jsaddFrameWithFileName(JSContext *cx, uint32_t argc, jsval *vp);
 	static JSBool jsaddFrameWithTexture(JSContext *cx, uint32_t argc, jsval *vp);
 	static JSBool jsinit(JSContext *cx, uint32_t argc, jsval *vp);
 	static JSBool jsanimation(JSContext *cx, uint32_t argc, jsval *vp);
-	static JSBool jsanimationWithFrames(JSContext *cx, uint32_t argc, jsval *vp);
 
 };
 

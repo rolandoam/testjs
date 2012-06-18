@@ -3,6 +3,13 @@
 
 #include <string>
 
+enum someThingEnumerated {
+	kValue1 = 1,
+	kValue2,
+	kValue3,
+	kValue4
+};
+
 class SimpleNativeClass
 {
 protected:
@@ -32,7 +39,12 @@ public:
 	}
 	void setAnotherMoreComplexField(const char *str);
 
-	// std::string not working yet!
+	long long thisReturnsALongLong();
+
+	void receivesLongLong(long long someId);
+	std::string returnsAString();
+	const char *returnsACString();
+
 	int doSomeProcessing(std::string arg1, std::string arg2);
 };
 

@@ -74,6 +74,10 @@ public:
 	static JSBool jsPropertyGet(JSContext *cx, JSObject *obj, jsid _id, jsval *val);
 	static JSBool jsPropertySet(JSContext *cx, JSObject *obj, jsid _id, JSBool strict, jsval *val);
 	static void jsCreateClass(JSContext *cx, JSObject *globalObj, const char *name);
+	static JSBool jsthisReturnsALongLong(JSContext *cx, uint32_t argc, jsval *vp);
+	static JSBool jsreceivesLongLong(JSContext *cx, uint32_t argc, jsval *vp);
+	static JSBool jsreturnsAString(JSContext *cx, uint32_t argc, jsval *vp);
+	static JSBool jsreturnsACString(JSContext *cx, uint32_t argc, jsval *vp);
 	static JSBool jsdoSomeProcessing(JSContext *cx, uint32_t argc, jsval *vp);
 
 };

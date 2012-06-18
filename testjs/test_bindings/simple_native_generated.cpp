@@ -92,6 +92,7 @@ JSBool S_AnotherClass::jsdoSomethingSimple(JSContext *cx, uint32_t argc, jsval *
 	S_AnotherClass* self = NULL; JSGET_PTRSHELL(S_AnotherClass, self, obj);
 	if (self == NULL) return JS_FALSE;
 	if (argc == 0) {
+		jsval *argv = JS_ARGV(cx, vp);
 		self->doSomethingSimple();
 		
 		JS_SET_RVAL(cx, vp, JSVAL_TRUE);
@@ -190,6 +191,10 @@ void S_SimpleNativeClass::jsCreateClass(JSContext *cx, JSObject *globalObj, cons
 		};
 
 		static JSFunctionSpec funcs[] = {
+			JS_FN("thisReturnsALongLong", S_SimpleNativeClass::jsthisReturnsALongLong, 0, JSPROP_PERMANENT | JSPROP_SHARED),
+			JS_FN("receivesLongLong", S_SimpleNativeClass::jsreceivesLongLong, 1, JSPROP_PERMANENT | JSPROP_SHARED),
+			JS_FN("returnsAString", S_SimpleNativeClass::jsreturnsAString, 0, JSPROP_PERMANENT | JSPROP_SHARED),
+			JS_FN("returnsACString", S_SimpleNativeClass::jsreturnsACString, 0, JSPROP_PERMANENT | JSPROP_SHARED),
 			JS_FN("doSomeProcessing", S_SimpleNativeClass::jsdoSomeProcessing, 2, JSPROP_PERMANENT | JSPROP_SHARED),
 			JS_FS_END
 		};
@@ -201,15 +206,74 @@ void S_SimpleNativeClass::jsCreateClass(JSContext *cx, JSObject *globalObj, cons
 	jsObject = JS_InitClass(cx,globalObj,NULL,jsClass,S_SimpleNativeClass::jsConstructor,0,properties,funcs,NULL,st_funcs);
 }
 
+JSBool S_SimpleNativeClass::jsthisReturnsALongLong(JSContext *cx, uint32_t argc, jsval *vp) {
+	JSObject* obj = (JSObject *)JS_THIS_OBJECT(cx, vp);
+	S_SimpleNativeClass* self = NULL; JSGET_PTRSHELL(S_SimpleNativeClass, self, obj);
+	if (self == NULL) return JS_FALSE;
+	if (argc == 0) {
+		jsval *argv = JS_ARGV(cx, vp);
+		long long ret = self->thisReturnsALongLong();
+		do { jsval tmp; JS_NewNumberValue(cx, ret, &tmp); JS_SET_RVAL(cx, vp, tmp); } while (0);
+		
+		return JS_TRUE;
+	}
+	JS_SET_RVAL(cx, vp, JSVAL_TRUE);
+	return JS_TRUE;
+}
+JSBool S_SimpleNativeClass::jsreceivesLongLong(JSContext *cx, uint32_t argc, jsval *vp) {
+	JSObject* obj = (JSObject *)JS_THIS_OBJECT(cx, vp);
+	S_SimpleNativeClass* self = NULL; JSGET_PTRSHELL(S_SimpleNativeClass, self, obj);
+	if (self == NULL) return JS_FALSE;
+	if (argc == 1) {
+		jsval *argv = JS_ARGV(cx, vp);
+		long long arg0 = argv[0].toNumber();
+		self->receivesLongLong(arg0);
+		
+		JS_SET_RVAL(cx, vp, JSVAL_TRUE);
+		return JS_TRUE;
+	}
+	JS_SET_RVAL(cx, vp, JSVAL_TRUE);
+	return JS_TRUE;
+}
+JSBool S_SimpleNativeClass::jsreturnsAString(JSContext *cx, uint32_t argc, jsval *vp) {
+	JSObject* obj = (JSObject *)JS_THIS_OBJECT(cx, vp);
+	S_SimpleNativeClass* self = NULL; JSGET_PTRSHELL(S_SimpleNativeClass, self, obj);
+	if (self == NULL) return JS_FALSE;
+	if (argc == 0) {
+		std::string ret = self->returnsAString();
+		do { JSString *tmp = JS_NewStringCopyZ(cx, ret.c_str()); JS_SET_RVAL(cx, vp, STRING_TO_JSVAL(tmp)); } while (0);
+		
+		return JS_TRUE;
+	}
+	JS_SET_RVAL(cx, vp, JSVAL_TRUE);
+	return JS_TRUE;
+}
+JSBool S_SimpleNativeClass::jsreturnsACString(JSContext *cx, uint32_t argc, jsval *vp) {
+	JSObject* obj = (JSObject *)JS_THIS_OBJECT(cx, vp);
+	S_SimpleNativeClass* self = NULL; JSGET_PTRSHELL(S_SimpleNativeClass, self, obj);
+	if (self == NULL) return JS_FALSE;
+	if (argc == 0) {
+		const char* ret = self->returnsACString();
+		if (ret == NULL) {
+			JS_SET_RVAL(cx, vp, JSVAL_NULL);
+			return JS_TRUE;
+		}
+		do { JSString *tmp = JS_NewStringCopyZ(cx, ret); JS_SET_RVAL(cx, vp, STRING_TO_JSVAL(tmp)); } while (0);
+		
+		return JS_TRUE;
+	}
+	JS_SET_RVAL(cx, vp, JSVAL_TRUE);
+	return JS_TRUE;
+}
 JSBool S_SimpleNativeClass::jsdoSomeProcessing(JSContext *cx, uint32_t argc, jsval *vp) {
 	JSObject* obj = (JSObject *)JS_THIS_OBJECT(cx, vp);
 	S_SimpleNativeClass* self = NULL; JSGET_PTRSHELL(S_SimpleNativeClass, self, obj);
 	if (self == NULL) return JS_FALSE;
 	if (argc == 2) {
-		JSString *arg0;
-		JSString *arg1;
-		JS_ConvertArguments(cx, 2, JS_ARGV(cx, vp), "SS", &arg0, &arg1);
+		jsval *argv = JS_ARGV(cx, vp);
+		JSString *arg0 = JSVAL_TO_STRING(argv[0]);
 		std::string narg0 = JS_EncodeString(cx, arg0);
+		JSString *arg1 = JSVAL_TO_STRING(argv[1]);
 		std::string narg1 = JS_EncodeString(cx, arg1);
 		int ret = self->doSomeProcessing(narg0, narg1);
 		do { jsval tmp; JS_NewNumberValue(cx, ret, &tmp); JS_SET_RVAL(cx, vp, tmp); } while (0);
@@ -222,17 +286,4 @@ JSBool S_SimpleNativeClass::jsdoSomeProcessing(JSContext *cx, uint32_t argc, jsv
 
 void register_enums_simple_native_generated(JSObject *global) {
 	JSContext *cx = ScriptingCore::getInstance().getGlobalContext();
-	JSObject *_someThingEnumerated_enum = JS_NewObject(cx, NULL, NULL, NULL);
-	do {
-		jsval _v_kValue1; JS_NewNumberValue(cx, 1, &_v_kValue1);
-		JS_SetProperty(cx, _someThingEnumerated_enum, "kValue1", &_v_kValue1);
-		jsval _v_kValue2; JS_NewNumberValue(cx, 2, &_v_kValue2);
-		JS_SetProperty(cx, _someThingEnumerated_enum, "kValue2", &_v_kValue2);
-		jsval _v_kValue3; JS_NewNumberValue(cx, 3, &_v_kValue3);
-		JS_SetProperty(cx, _someThingEnumerated_enum, "kValue3", &_v_kValue3);
-		jsval _v_kValue4; JS_NewNumberValue(cx, 4, &_v_kValue4);
-		JS_SetProperty(cx, _someThingEnumerated_enum, "kValue4", &_v_kValue4);
-	}while (0);
-	jsval _someThingEnumerated_enum_val = OBJECT_TO_JSVAL(_someThingEnumerated_enum);
-	JS_SetProperty(cx, global, "someThingEnumerated", &_someThingEnumerated_enum_val);
 }
